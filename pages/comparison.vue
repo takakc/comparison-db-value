@@ -106,16 +106,18 @@ export default {
       // 配列の0は項目名の前提
       if (this.databaseValues.length > 1) {
         const key = this.comparisonList.length
-        console.log('key')
-        console.log(key)
         this.databaseValues[key].forEach((value, index) => {
           if (value != this.databaseValues[key + 1][index]) {
-            this.comparisonList[key] = {
-              index: {
-                'column': this.databaseHeader[index],
-                'before': value,
-                'after': this.databaseValues[key + 1][index],
-              }
+            let addComparison = {
+              'column': this.databaseHeader[index],
+              'before': value,
+              'after': this.databaseValues[key + 1][index],
+            }
+            let addWrapComparison = [addComparison]
+            if (this.comparisonList[key]) {
+              this.comparisonList[key] = this.comparisonList[key].concat(addComparison)
+            } else {
+              this.comparisonList[key] = addWrapComparison
             }
           }
         })
